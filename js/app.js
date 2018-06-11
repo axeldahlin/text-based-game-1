@@ -1,25 +1,30 @@
 const mainInput = document.querySelector('.main-Input');
 const textDiv = document.querySelector('.text-div');
 
+
+
+
+
+
 let player = {
 	inventory: '',
-	currentLocation: currentLocation;
+	currentLocation: 'start'
 }
 
-var currentLocation = 'start';
 
 const commands = ['go', 'pickup', 'look', 'talk'];
 
 function changeRoom(dir) {
-	if(rooms[currentLocation].directions[dir] !== undefined) {
-		currentLocation = rooms[currentLocation].directions[dir];
-		textDiv.innerHTML += `<p><b>${rooms[currentLocation].title}</b></p>`;
-		textDiv.innerHTML += `<p>${rooms[currentLocation].description}</p>`;
+	if(rooms[player.currentLocation].directions[dir] !== undefined) {
+		player.currentLocation = rooms[player.currentLocation].directions[dir];
+		printToPLayer(`<p><b>${rooms[player.currentLocation].title}</b></p><p>${rooms[player.currentLocation].description}</p>`);
 	} else {
-		textDiv.innerHTML += '<p>Looks like I can not walk that way<p>';
+		printToPLayer('<p>Looks like I can not walk that way<p>');
 	}
 	updateScroll();
 }
+
+
 
 function updateScroll(){
     window.scrollTo(0,document.body.scrollHeight);
@@ -27,7 +32,7 @@ function updateScroll(){
 
 function playerInput(input) {
 	const command = input.split(' ')[0];
-	textDiv.innerHTML += `<p>>> ${input}</p>`
+	printToPLayer(`<p>>> ${input}</p>`);
 	switch(command) {
 		case "go":
 			const dir = input.split(' ')[1];
@@ -39,6 +44,13 @@ function playerInput(input) {
 		case "instructions":
 			showInstructions();
 			break;
+		case "look":
+			rooms[currentLocation].lookAtThings;
+			break;
+		case "take":
+			const thing = input.split(' ')[1];
+			takeThing(thing);
+			break;
 		default:
 			invalidCommand(input);
 	}
@@ -46,8 +58,13 @@ function playerInput(input) {
 }
 
 
+function printToPLayer(newPlayerText){
+	textDiv.innerHTML += newPlayerText;
+}
+
+
 function showHelp() {
-	const help = `	<hr>
+	printToPLayer(`	<hr>
 					<p>Here are your possibel commands:</p>
 					<ul>
 						<li>go</li>
@@ -55,31 +72,30 @@ function showHelp() {
 						<li>look</li>
 						<li>talk</li>
 				  </ul>
-				  <hr>`;
-	textDiv.innerHTML += help;
+				  <hr>`);
 }
 
 function showInstructions() {
-	const help = `
+	printToPLayer(`
 				  <hr>
 				  <p>This is the commands you can use:</p>
 				  <p><b>"go"</b> use this in combination with a space and a direction (<b>"north", "east", "south"</b>, or <b>"west"</b>).</p>
 				  <p><b>"grab"</b> use this in comination with a space something you see in the location.</p>
 				  <p><b>"inventory"</b> lists everything that you carry.</p>
 				  <p><b>"talk to"</b> use this in comination with a space and character you want to talk to.</p>
-				  <hr>`;
-	textDiv.innerHTML += help;
+				  <hr>`);
 }
 
 function invalidCommand() {
-	textDiv.innerHTML += `I don't recognize that word.`;
-
+	printToPLayer(`I don't recognize that word.`);
 }
 
+function takeThing(input) {
+	console.log()
+}
 
 document.addEventListener('DOMContentLoaded', function(){
-	textDiv.innerHTML += `<p><b>${rooms[currentLocation].title}</b></p>`;
-	textDiv.innerHTML += ('<p>' + rooms.start.description + '</p>');
+	printToPLayer(`<p><b>${rooms[player.currentLocation].title}</b></p><p>${rooms.start.description}</p>`);
 	document.addEventListener('keypress', function(key) {
    		if (key.keyCode === 13) {
    			const value = mainInput.value.toLowerCase();

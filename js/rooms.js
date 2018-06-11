@@ -5,6 +5,24 @@ class Location {
 		this.things = things;	
 		this.directions = directions;
 	}
+
+	get lookAtThings() {
+		let lookText = '<p>You look around and see the following:</p><ul>';
+
+		if (this.things.length === 0) {
+			printToPLayer('<p>It seems to be nothing of interest here.</p>');
+		} else {
+			for (let i = 0; i < this.things.length; i++) {
+			lookText += `<li>${this.things[i]}</li>`;
+			}
+
+			lookText += '</p>';
+
+			printToPLayer(lookText);
+		}
+	}
+
+			
 }
 
 class Exit {
@@ -15,10 +33,10 @@ class Exit {
 }
 
 var rooms = {
-	start: new Location('Dark Place',
-	 					'You are in a dark, cold place and you see a light to <b>south</b>\
-	 					 and you hear the sound of running water to the <b>west</b>',
-	 					['stone', 'spade'],
+	start: new Location('Clearing',
+	 					'You see a faint light far away into the forest to the <b>south</b>.\
+	 					 From the <b>west</b> there is a damp sound of running water.',
+	 					['feathers', 'scales'],
 	 					{
 	 						'west': 'clearing1.1',
 	 						'south': 'lighthouse'
@@ -26,8 +44,8 @@ var rooms = {
 	 ),
 
 
-	'clearing1.1': new Location('A Clearing',
-								'You arrive to a clearing with a stream running through.\
+	'clearing1.1': new Location('A Stream',
+								'You arrive at a stream that curves between the trees like a snake.\
 								 Up <b>north</b> of the stream you see some forms in the dark. There is a starnge smell comming from there... ',
 	     						[],
 	     						{
@@ -37,9 +55,9 @@ var rooms = {
 	),
 
 	'clearing1.2': new Location('Deeper Into The Clearing',
-								'You stumble into a camp of... Trolls!? From every side of you they seem to creep up on you. Snoring snouts and whisping\
-								 hairy tailes every where you look. To your left one of there spear lay in the gras. To your right you see something in \
-								 the grass glimmering, reflecting the moon light. What do you do?',
+								'You stumble into a camp of... trolls!? From every side of you they seem to creep up on you. Snoring snouts and whisping\
+								 hairy tailes every where you look. To your left there is a spear in the grass. To your right you see something in \
+								 the grass glimmering, reflecting the star light. What do you do?',
 								['spear', 'glimmering thing'],
 								{
 									'south': 'clearing1.1'
@@ -47,9 +65,9 @@ var rooms = {
 	),
 
 	'lighthouse': new Location('A Lighthouse',
-								'You arrive to the lighthouse and walk up to the door. A strange old lady\
+								'You arrive to the lighthouse and walk up to the door. A man\
      							 opens the door. What do you do?',
-     							 [],
+     							 ['man'],
      							 {
      							 	'north': 'start'
      							 }
