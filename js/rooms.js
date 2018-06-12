@@ -22,7 +22,7 @@ class Location {
 		}
 	}
 
-			
+
 }
 
 class Exit {
@@ -46,7 +46,7 @@ var rooms = {
 
 	'clearing1.1': new Location('A Stream',
 								'You arrive at a stream that curves between the trees like a snake.\
-								 Up <b>north</b> of the stream you see some forms in the dark. There is a starnge smell comming from there... ',
+								 Up <b>north</b> of the stream you see some forms in the dark. There is a strange smell comming from there... ',
 	     						[],
 	     						{
 	     							'east': 'start',

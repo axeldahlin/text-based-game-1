@@ -7,7 +7,7 @@ const textDiv = document.querySelector('.text-div');
 
 
 let player = {
-	inventory: '',
+	inventory: [],
 	currentLocation: 'start'
 }
 
@@ -45,7 +45,10 @@ function playerInput(input) {
 			showInstructions();
 			break;
 		case "look":
-			rooms[currentLocation].lookAtThings;
+			rooms[player.currentLocation].lookAtThings;
+			break;
+		case "inventory":
+			showInventory();
 			break;
 		case "take":
 			const thing = input.split(' ')[1];
@@ -78,11 +81,11 @@ function showHelp() {
 function showInstructions() {
 	printToPLayer(`
 				  <hr>
-				  <p>This is the commands you can use:</p>
-				  <p><b>"go"</b> use this in combination with a space and a direction (<b>"north", "east", "south"</b>, or <b>"west"</b>).</p>
-				  <p><b>"grab"</b> use this in comination with a space something you see in the location.</p>
+				  <p>Instructions - This is the commands you can use:</p>
+				  <p><b>"go"</b> - use this in combination with a space and a direction (<b>"north", "east", "south"</b>, or <b>"west"</b>).</p>
+				  <p><b>"look"</b> - use this to look at things in your current location.</p>
+				  <p><b>"take"</b> - use this in comination with a space something you see in the location.</p>
 				  <p><b>"inventory"</b> lists everything that you carry.</p>
-				  <p><b>"talk to"</b> use this in comination with a space and character you want to talk to.</p>
 				  <hr>`);
 }
 
@@ -91,7 +94,27 @@ function invalidCommand() {
 }
 
 function takeThing(input) {
-	console.log()
+	let thingsArray = rooms[player.currentLocation].things;
+
+	if (thingsArray.includes(input)) {
+		player.inventory.push(input);
+		let index = thingsArray.indexOf(input)
+		thingsArray.splice(index, 1);
+		printToPLayer(`<p>You took ${input} and put it in your inventory.`);
+	} else {
+		printToPLayer(`<p>I can not take things that are not here.</p>`);
+	}
+}
+
+function showInventory() {
+	let inventoryList = `<p>In your inventory you are carrying:</p><ul>`; 
+
+	for (var i = 0; i < player.inventory.length; i++) {
+		inventoryList += `<li>${player.inventory[i]}</li>`;	
+	}
+
+	inventoryList += `</ul>`;
+	printToPLayer(inventoryList);
 }
 
 document.addEventListener('DOMContentLoaded', function(){
